@@ -17,6 +17,21 @@ const loggingMiddleware = morgan(
   { stream, skip }
 )
 
+const authMiddleware = (req, res, next) => {
+  if (!req.isAuthenticated()) {
+    next(createHttpError(401))
+  } else {
+    res.status(200).end()
+  }
+}
+
+const preAuthMiddleware = (req, res, next) => {
+  if (req.isAuthenticated()) {
+    return res.redirect('/api')
+  }
+  next()
+}
+
 const endPoint404 = (req, res, next) => {
   next(createHttpError(404))
 }
@@ -37,6 +52,8 @@ const middlewares = {
   loggingMiddleware,
   endPoint404,
   errorHandler,
+  authMiddleware,
+  preAuthMiddleware,
 }
 
 export default middlewares

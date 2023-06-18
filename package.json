@@ -2,10 +2,10 @@
   "name": "elysian",
   "version": "1.0.0",
   "description": "Eighth weekly exercise.",
-  "main": "build/index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "start": "NODE_ENV=production node ./build/index.js",
-    "build": "rimraf dist && babel source --out-dir build  --copy-files",
+    "start": "NODE_ENV=production node ./dist/index.js",
+    "build": "rm -rf dist && babel src --out-dir dist --copy-files",
     "dev": "NODE_ENV=development nodemon --exec babel-node ./src/index.js",
     "format": "prettier --write \"src/**/*.js\"",
     "linting": "eslint --ignore-path .eslintignore './src/**/*.{ts,js}'",
@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/aiotrope/elysian#readme",
   "dependencies": {
+    "bcrypt": "^5.1.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
@@ -30,7 +31,10 @@
     "express-session": "^1.17.3",
     "helmet": "^7.0.0",
     "http-errors": "^2.0.0",
+    "method-override": "^3.0.0",
     "morgan": "^1.10.0",
+    "passport": "^0.6.0",
+    "passport-local": "^1.0.0",
     "sanitize": "^2.1.2",
     "winston": "^3.9.0"
   },

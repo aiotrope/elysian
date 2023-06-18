@@ -1,11 +1,15 @@
+import config from './utils/config'
 import express from 'express'
 import path from 'path'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import helmet from 'helmet'
+import session from 'express-session'
+import passport from 'passport'
+import methodOverride from 'method-override'
 
-import config from './utils/config'
 import middlewares from './utils/middlewares'
+
 import logger from './utils/logger'
 
 import indexRouter from './routes'
@@ -24,6 +28,20 @@ app.use(express.urlencoded({ extended: false }))
 
 app.use(cookieParser())
 
+app.use(
+  session({
+    secret: config.session_secret,
+    resave: false,
+    saveUninitialized: false,
+  })
+)
+
+app.use(passport.initialize())
+
+app.use(passport.session())
+
+app.use(methodOverride('_method'))
+
 app.use(cors())
 
 app.use(helmet())
@@ -32,7 +50,7 @@ app.use(require('sanitize').middleware)
 
 app.use(middlewares.loggingMiddleware)
 
-app.use('/', indexRouter)
+app.use('/api', indexRouter)
 
 app.use(middlewares.endPoint404)
 
